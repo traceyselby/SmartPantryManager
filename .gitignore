@@ -1,0 +1,27 @@
+
+# Gradle
+.gradle/
+build/
+**/build/
+
+# Local Android SDK settings
+local.properties
+
+# Android Studio
+.idea/workspace.xml
+.idea/caches/
+*.iml
+
+# macOS
+.DS_Store
+
+# Generated files
+*.apk
+*.aab
+
+# Logs
+*.log
+
+Mobile App Development 700 ASSIGNMENT (1).pdf
+
+.idea/
