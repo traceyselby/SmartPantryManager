@@ -78,9 +78,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="YYYY-MM-DD"
-            android:focusable="false"
+            android:focusable="true"
             android:clickable="true"
-            android:inputType="none"
+            android:inputType="date"
             android:layout_marginBottom="8dp"/>
 
         <TextView
