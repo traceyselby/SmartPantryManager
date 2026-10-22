@@ -1,0 +1,46 @@
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:layout_marginBottom="10dp"
+    android:background="#F0F5F1">
+
+    <TextView
+        android:id="@+id/textRecipeName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Scrambled Eggs"
+        android:textSize="19sp"
+        android:textStyle="bold"
+        android:textColor="#2E5B45"/>
+
+    <TextView
+        android:id="@+id/textRecipeDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Quick and creamy scrambled eggs."
+        android:textSize="14sp"
+        android:textColor="#444444"
+        android:layout_marginTop="6dp"/>
+
+    <TextView
+        android:id="@+id/textRecipeTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Preparation time: 10 minutes"
+        android:textSize="13sp"
+        android:textColor="#777777"
+        android:layout_marginTop="8dp"/>
+
+    <Button
+        android:id="@+id/btnViewRecipe"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="View Recipe"
+        android:textAllCaps="false"
+        android:layout_marginTop="12dp"/>
+
+</LinearLayout>

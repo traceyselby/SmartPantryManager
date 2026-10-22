@@ -1,21 +1,28 @@
 
 package com.example.smartpantrymanager;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.widget.Toast;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    // UI components
     private RecyclerView recyclerViewPantry;
+    private IngredientAdapter ingredientAdapter;
+    private DatabaseHelper databaseHelper;
+
     private Button btnAddIngredient;
     private Button btnSuggestedRecipes;
     private Button btnSettings;
@@ -24,74 +31,173 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Enable edge-to-edge display
         EdgeToEdge.enable(this);
-
-        // Load the Pantry List screen
         setContentView(R.layout.activity_main);
 
-        // Adjust layout for system bars
         ViewCompat.setOnApplyWindowInsetsListener(
                 findViewById(R.id.main),
                 (v, insets) -> {
-
                     Insets systemBars = insets.getInsets(
                             WindowInsetsCompat.Type.systemBars()
                     );
-
                     v.setPadding(
                             systemBars.left,
                             systemBars.top,
                             systemBars.right,
                             systemBars.bottom
                     );
-
                     return insets;
                 }
         );
 
-        // Connect Java components to XML elements
-        recyclerViewPantry = findViewById(
-                R.id.recyclerViewPantry
+        databaseHelper = new DatabaseHelper(this);
+
+        recyclerViewPantry = findViewById(R.id.recyclerViewPantry);
+
+        recyclerViewPantry.setLayoutManager(
+                new LinearLayoutManager(this)
         );
 
-        btnAddIngredient = findViewById(
-                R.id.btnAddIngredient
-        );
+        btnAddIngredient = findViewById(R.id.btnAddIngredient);
+        btnSuggestedRecipes = findViewById(R.id.btnSuggestedRecipes);
+        btnSettings = findViewById(R.id.btnSettings);
 
-        btnSuggestedRecipes = findViewById(
-                R.id.btnSuggestedRecipes
-        );
-
-        btnSettings = findViewById(
-                R.id.btnSettings
-        );
-
-        // Add Ingredient button
+        // Open the Add Ingredient screen
         btnAddIngredient.setOnClickListener(v -> {
-            Toast.makeText(
+            Intent intent = new Intent(
                     MainActivity.this,
-                    "Add Ingredient clicked",
-                    Toast.LENGTH_SHORT
-            ).show();
+                    AddIngredientActivity.class
+            );
+            startActivity(intent);
         });
 
-        // Suggested Recipes button
-        btnSuggestedRecipes.setOnClickListener(v -> {
-            Toast.makeText(
+        // Temporary placeholder until recipes screen is built
+        btnSuggestedRecipes.setOnClickListener(view -> {
+            Intent intent = new Intent(
                     MainActivity.this,
-                    "Suggested Recipes clicked",
-                    Toast.LENGTH_SHORT
-            ).show();
+                    SuggestedRecipesActivity.class
+            );
+
+            startActivity(intent);
         });
 
-        // Settings button
+        // Temporary placeholder until settings screen is built
         btnSettings.setOnClickListener(v -> {
             Toast.makeText(
                     MainActivity.this,
-                    "Settings clicked",
+                    "Settings coming soon!",
                     Toast.LENGTH_SHORT
             ).show();
         });
+
+        loadPantryIngredients();
+    }
+
+
+    private void loadPantryIngredients() {
+
+        List<Ingredient> ingredients =
+                databaseHelper.getAllIngredients();
+
+        ingredientAdapter = new IngredientAdapter(
+                ingredients,
+                new IngredientAdapter.OnIngredientActionListener() {
+
+                    @Override
+                    public void onEdit(Ingredient ingredient) {
+
+                        Intent intent = new Intent(
+                                MainActivity.this,
+                                AddIngredientActivity.class
+                        );
+
+                        intent.putExtra(
+                                "ingredient_id",
+                                ingredient.getId()
+                        );
+
+                        intent.putExtra(
+                                "ingredient_name",
+                                ingredient.getName()
+                        );
+
+                        intent.putExtra(
+                                "ingredient_quantity",
+                                ingredient.getQuantity()
+                        );
+
+                        intent.putExtra(
+                                "ingredient_unit",
+                                ingredient.getUnit()
+                        );
+
+                        intent.putExtra(
+                                "ingredient_expiry",
+                                ingredient.getExpiryDate()
+                        );
+
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void onDelete(Ingredient ingredient) {
+
+                        new androidx.appcompat.app.AlertDialog.Builder(
+                                MainActivity.this
+                        )
+                                .setTitle("Delete Ingredient")
+                                .setMessage(
+                                        "Are you sure you want to delete "
+                                                + ingredient.getName() + "?"
+                                )
+                                .setPositiveButton("Delete", (dialog, which) -> {
+
+                                    int rowsDeleted =
+                                            databaseHelper.deleteIngredient(
+                                                    ingredient.getId()
+                                            );
+
+                                    if (rowsDeleted > 0) {
+                                        Toast.makeText(
+                                                MainActivity.this,
+                                                "Ingredient deleted",
+                                                Toast.LENGTH_SHORT
+                                        ).show();
+
+                                        loadPantryIngredients();
+                                    } else {
+                                        Toast.makeText(
+                                                MainActivity.this,
+                                                "Could not delete ingredient",
+                                                Toast.LENGTH_SHORT
+                                        ).show();
+                                    }
+                                })
+                                .setNegativeButton("Cancel", null)
+                                .show();
+                    }
+                }
+        );
+
+        recyclerViewPantry.setAdapter(ingredientAdapter);
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // Refresh the list when returning from Add Ingredient
+        if (databaseHelper != null && recyclerViewPantry != null) {
+            loadPantryIngredients();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (databaseHelper != null) {
+            databaseHelper.close();
+        }
+        super.onDestroy();
     }
 }
