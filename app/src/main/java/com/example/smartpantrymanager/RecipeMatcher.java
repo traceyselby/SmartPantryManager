@@ -1,9 +1,9 @@
-
 package com.example.smartpantrymanager;
 
 import java.text.Normalizer;
-import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -189,6 +189,7 @@ public class RecipeMatcher {
         }
     }
 
+
     private static boolean isExpired(String expiryDate) {
 
         if (expiryDate == null || expiryDate.trim().isEmpty()) {
@@ -196,13 +197,33 @@ public class RecipeMatcher {
         }
 
         try {
-            LocalDate expiry = LocalDate.parse(expiryDate.trim());
-            return expiry.isBefore(LocalDate.now());
-        } catch (DateTimeParseException e) {
-            // Do not count ingredients with invalid expiry dates.
+            SimpleDateFormat dateFormat =
+                    new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+
+            dateFormat.setLenient(false);
+
+            Date expiry = dateFormat.parse(expiryDate.trim());
+
+            if (expiry == null) {
+                return true;
+            }
+
+            SimpleDateFormat todayFormat =
+                    new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+
+            todayFormat.setLenient(false);
+
+            Date today = todayFormat.parse(
+                    todayFormat.format(new Date())
+            );
+
+            return today == null || expiry.before(today);
+
+        } catch (ParseException e) {
             return true;
         }
     }
+
 
     private static class UnitInfo {
 
