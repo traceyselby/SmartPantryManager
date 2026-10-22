@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">SmartPantryManager</string>
+    <string name="pantry_title">My Pantry</string>
+    <string name="pantry_description">Keep track of your ingredients and reduce food waste.</string>
+    <string name="add_ingredient">Add Ingredient</string>
+    <string name="suggested_recipes">Suggested Recipes</string>
+    <string name="settings">Settings</string>
+
 </resources>

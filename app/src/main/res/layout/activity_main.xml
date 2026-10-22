@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/main"
@@ -11,55 +12,56 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Smart Pantry Manager"
-        android:textSize="26sp"
+        android:text="@string/app_name"
+        android:textSize="24sp"
         android:textStyle="bold"
-        android:textColor="#2E5B45"
+        android:textColor="#244B3A"
         android:gravity="center"
-        android:layout_marginBottom="12dp"/>
+        android:layout_marginBottom="20dp" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="My Pantry"
+        android:text="@string/pantry_title"
         android:textSize="22sp"
         android:textStyle="bold"
-        android:textColor="#333333"
-        android:layout_marginBottom="8dp"/>
+        android:textColor="#244B3A"
+        android:layout_marginBottom="8dp" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Keep track of your ingredients and reduce food waste."
+        android:text="@string/pantry_description"
         android:textSize="14sp"
-        android:textColor="#666666"
-        android:layout_marginBottom="16dp"/>
+        android:textColor="#555555"
+        android:layout_marginBottom="16dp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewPantry"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_weight="1"
+        android:layout_marginBottom="16dp"
+        android:clipToPadding="false" />
 
     <Button
         android:id="@+id/btnAddIngredient"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Add Ingredient"
-        android:textAllCaps="false"/>
+        android:text="@string/add_ingredient"
+        android:layout_marginBottom="8dp" />
 
     <Button
         android:id="@+id/btnSuggestedRecipes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Suggested Recipes"
-        android:textAllCaps="false"/>
+        android:text="@string/suggested_recipes"
+        android:layout_marginBottom="8dp" />
 
     <Button
         android:id="@+id/btnSettings"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Settings"
-        android:textAllCaps="false"/>
+        android:text="@string/settings" />
 
 </LinearLayout>
