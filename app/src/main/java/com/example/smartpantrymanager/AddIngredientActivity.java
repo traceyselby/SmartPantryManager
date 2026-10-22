@@ -196,6 +196,16 @@ public class AddIngredientActivity extends AppCompatActivity {
             return;
         }
 
+
+        if (name.length() > 100) {
+            editIngredientName.setError(
+                    "Ingredient name cannot exceed 100 characters"
+            );
+            editIngredientName.requestFocus();
+            return;
+        }
+
+
         if (quantityText.isEmpty()) {
             editQuantity.setError(
                     "Quantity is required"
