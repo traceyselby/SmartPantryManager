@@ -1,4 +1,3 @@
-
 package com.example.smartpantrymanager;
 
 import android.content.Intent;
@@ -71,7 +70,6 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        // Temporary placeholder until recipes screen is built
         btnSuggestedRecipes.setOnClickListener(view -> {
             Intent intent = new Intent(
                     MainActivity.this,
@@ -81,14 +79,15 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        // Temporary placeholder until settings screen is built
-        btnSettings.setOnClickListener(v -> {
-            Toast.makeText(
+        btnSettings.setOnClickListener(view -> {
+            Intent intent = new Intent(
                     MainActivity.this,
-                    "Settings coming soon!",
-                    Toast.LENGTH_SHORT
-            ).show();
+                    SettingsActivity.class
+            );
+
+            startActivity(intent);
         });
+
 
         loadPantryIngredients();
     }

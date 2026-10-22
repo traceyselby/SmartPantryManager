@@ -426,4 +426,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         return recipe;
     }
+
+    public void clearAllIngredients() {
+
+        SQLiteDatabase db = getWritableDatabase();
+
+        db.delete(
+                TABLE_INGREDIENTS,
+                null,
+                null
+        );
+    }
 }
